@@ -21,7 +21,7 @@ API do projeto TaPago - Controle de Gastos Pessoais
 
 `GET` /categoria
 
-Retorna um aeeay com todas as categorias cadastradas.
+Retorna um array com todas as categorias cadastradas.
 
 #### Exemplo de Resposta
 

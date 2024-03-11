@@ -1,11 +1,23 @@
 package br.com.fiap.tapago.model;
 
-import java.util.Random;
+import org.hibernate.annotations.IdGeneratorType;
 
-public record Categoria(Long id, String nome, String icone) {
-    public Categoria(Long id, String nome, String icone) {
-        this.id = Math.abs(new Random().nextLong());
-        this.nome = nome;
-        this.icone = icone;
-    }
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+// @Getter 
+// @Setter
+// @RequiredArgsConstructor
+// @EqualsAndHashCode
+@Data
+@Entity
+public class Categoria {
+    
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String nome;
+    private String icone;
 }

@@ -2,9 +2,11 @@ package br.com.fiap.tapago.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.tapago.model.Categoria;
+import br.com.fiap.tapago.repository.CategoriaRepository;
 
 @RestController
 @RequestMapping("categoria")
@@ -27,29 +30,31 @@ public class CategoriaController {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
-    List<Categoria> repository = new ArrayList<>();
+    @Autowired // injeção de dependencia - inversao de controle
+    CategoriaRepository repository;
 
     @GetMapping
     public List<Categoria> index() {
-        return repository;
+        return repository.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> create(@RequestBody Categoria categoria) { // binding
+    @ResponseStatus(HttpStatus.CREATED)
+    public Categoria create(@RequestBody Categoria categoria) { // binding
         log.info("Cadastrando categoria {}", categoria);
-        repository.add(categoria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
+        return repository.save(categoria);
     }
 
-    //TODO refatorar com stream
+    // //TODO refatorar com stream
 
     @GetMapping("{id}")
-    public ResponseEntity show(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Categoria> show(@PathVariable Long id) {
         log.info("buscando categoria com id {}", id);
-        for(Categoria categoria: repository) {
-            if (categoria.id().equals(id)) 
-                return ResponseEntity.status(HttpStatus.OK).body(categoria);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        
+        return repository
+            .findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 }

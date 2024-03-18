@@ -9,25 +9,29 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @Entity
-public class Movimentacao { // BO - POJO - Entity - Model
-    
+public class Movimentacao {
+
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "{moveimentacao.descricao.notblank}")
+    @NotBlank(message = "{movimentacao.descricao.notblank}")
     @Size(min = 3, max = 255)
     private String descricao;
 
     @Positive
     private BigDecimal valor;
+
     private LocalDate data;
 
     @TipoMovimentacao
     private String tipo; //ENTRADA | SAIDA
+    
 }

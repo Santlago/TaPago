@@ -12,9 +12,11 @@ import jakarta.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = TipoMovimentacaoValidator.class)
 public @interface TipoMovimentacao {
+
     String message() default "{movimentacao.tipo}";
 
-	Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
+
 }

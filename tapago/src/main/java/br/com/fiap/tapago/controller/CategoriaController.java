@@ -1,15 +1,14 @@
 package br.com.fiap.tapago.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,9 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CategoriaController {
 
-    Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired // injeção de dependencia - inversao de controle
+    @Autowired // Injeção de Dependência - Inversão de Controle
     CategoriaRepository repository;
 
     @GetMapping
@@ -41,20 +38,20 @@ public class CategoriaController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Categoria create(@RequestBody Categoria categoria) { // binding
+    public Categoria create(@RequestBody Categoria categoria) {
         log.info("Cadastrando categoria {}", categoria);
         return repository.save(categoria);
     }
 
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Categoria> show(@PathVariable Long id) {
         log.info("buscando categoria com id {}", id);
-        
+
         return repository
-            .findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
     }
 
     @DeleteMapping("{id}")
@@ -63,7 +60,6 @@ public class CategoriaController {
         log.info("apagando categoria {}", id);
         verificarSeCategoriaExiste(id);
         repository.deleteById(id);
-
     }
 
     @PutMapping("{id}")
@@ -71,17 +67,16 @@ public class CategoriaController {
         log.info("atualizar categoria {} para {}", id, categoria);
 
         verificarSeCategoriaExiste(id);
-
         categoria.setId(id);
         return repository.save(categoria);
     }
 
     private void verificarSeCategoriaExiste(Long id) {
         repository
-            .findById(id)
-            .orElseThrow(() -> new ResponseStatusException(
-                                        NOT_FOUND, 
-                                        "Não existe categoria com o id informado"
-                                    ));
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        NOT_FOUND,
+                        "Não existe categoria com o id informado"));
     }
+
 }

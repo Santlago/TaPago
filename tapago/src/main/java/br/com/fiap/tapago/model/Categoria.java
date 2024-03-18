@@ -1,6 +1,5 @@
 package br.com.fiap.tapago.model;
 
-import org.hibernate.annotations.IdGeneratorType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

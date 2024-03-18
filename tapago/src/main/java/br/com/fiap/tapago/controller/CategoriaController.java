@@ -1,24 +1,32 @@
 package br.com.fiap.tapago.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.tapago.model.Categoria;
 import br.com.fiap.tapago.repository.CategoriaRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("categoria")
+@Slf4j
 public class CategoriaController {
 
     Logger log = LoggerFactory.getLogger(getClass());
@@ -32,13 +40,11 @@ public class CategoriaController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public Categoria create(@RequestBody Categoria categoria) { // binding
         log.info("Cadastrando categoria {}", categoria);
         return repository.save(categoria);
     }
-
-    // //TODO refatorar com stream
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -49,5 +55,33 @@ public class CategoriaController {
             .findById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void destroy(@PathVariable Long id) {
+        log.info("apagando categoria {}", id);
+        verificarSeCategoriaExiste(id);
+        repository.deleteById(id);
+
+    }
+
+    @PutMapping("{id}")
+    public Categoria update(@PathVariable Long id, @RequestBody Categoria categoria) {
+        log.info("atualizar categoria {} para {}", id, categoria);
+
+        verificarSeCategoriaExiste(id);
+
+        categoria.setId(id);
+        return repository.save(categoria);
+    }
+
+    private void verificarSeCategoriaExiste(Long id) {
+        repository
+            .findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                                        NOT_FOUND, 
+                                        "Não existe categoria com o id informado"
+                                    ));
     }
 }

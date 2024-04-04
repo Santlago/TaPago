@@ -1,5 +1,7 @@
 import NavBar from "@/components/navbar"
 import { ChevronDown, Utensils } from "lucide-react";
+import { CategoriaItem } from "./CategoriaItem";
+import { Button } from "@nextui-org/react";
 
 export default function Categorias() {
 
@@ -7,17 +9,17 @@ export default function Categorias() {
     {
       id: 1,
       nome: "Alimentação",
-      icone: "fastfood"
+      icone: "apple"
     },
     {
       id: 2,
       nome: "Educação",
-      icone: "school"
+      icone: "graduation-cap"
     },
     {
       id: 3,
       nome: "Lazer",
-      icone: "leisure"
+      icone: "cigarette"
     },
   ]
 
@@ -28,18 +30,9 @@ export default function Categorias() {
 
       <section className="bg-slate-900 rounded min-w-[500px] p-2 m-4">
         <h2 className="text-2xl font-semibold">Categorias Cadastradas</h2>
+        <Button>Nova categoria</Button>
         <div id="data">
-          {categorias.map(categoria => {
-            return (
-              <div key={categoria.id} className="flex justify-between" id="data-row">
-                <div className="flex gap-1 items-center">
-                  <Utensils size={20} />
-                  <span>{categoria.nome}</span>
-                </div>
-                <ChevronDown />
-              </div>
-            )
-          })}
+          {categorias.map(categoria => <CategoriaItem categoria={categoria} />)}
 
         </div>
       </section>

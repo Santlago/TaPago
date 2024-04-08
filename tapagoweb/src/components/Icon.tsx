@@ -4,14 +4,15 @@ interface IconProps {
     name: string
 }
 
-export default function Icon({name} : IconProps) {
+export function Icon({name} : IconProps){
 
     const icons = [
-        {name: "graduation-cap", icon: <GraduationCap />},
-        {name: "bus", icon: <Bus />},
-        {name: "cigarette", icon: <Cigarette />},
-        {name: "apple", icon: <Apple />}
+        {name: "graduation-cap", icon: <GraduationCap /> },
+        {name: "bus", icon: <Bus /> },
+        {name: "cigarette", icon: <Cigarette /> },
+        {name: "apple", icon: <Apple /> },
     ]
 
-    return icons.find((icon) => name == icon.name)?.icon
+    return icons.find( (icon) => name == icon.name )?.icon
+    
 }

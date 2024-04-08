@@ -1,5 +1,5 @@
-import { DropDownActions } from "@/components/DropDownAction";
-import Icon from "@/components/Icon";
+import { DropDownActions } from "@/components/DropDownActions";
+import { Icon } from "@/components/Icon";
 import { ChevronDown, Utensils } from "lucide-react";
 
 interface CategoriaItemProps {
@@ -10,15 +10,16 @@ interface CategoriaItemProps {
     }
 }
 
-export function CategoriaItem(props: CategoriaItemProps) {
+export function CategoriaItem(props: CategoriaItemProps){
     const { categoria } = props
-    return(
+    return (
         <div key={categoria.id} className="flex justify-between py-2" id="data-row">
             <div className="flex gap-1 items-center">
-                <Icon name={categoria.icone}/>
+                <Icon name={categoria.icone} />
                 <span>{categoria.nome}</span>
             </div>
-            <DropDownActions/>
+           
+            <DropDownActions />
         </div>
     )
 }

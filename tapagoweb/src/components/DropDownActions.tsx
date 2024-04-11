@@ -10,8 +10,13 @@ import {
     Button
 } from "@nextui-org/react";
 import { ChevronDown, Pencil, Trash } from "lucide-react";
+import { MouseEventHandler } from "react";
 
-export function DropDownActions(){
+interface DropDownActionsProps {
+    onDelete: MouseEventHandler
+}
+
+export function DropDownActions({onDelete}: DropDownActionsProps){
     return (
         <Dropdown>
         <DropdownTrigger>
@@ -24,7 +29,7 @@ export function DropDownActions(){
                 startContent={<Trash size={18} />} 
                 className="text-danger" 
                 color="danger"
-                onClick={() => destroy(1)}
+                onClick={onDelete}
             >
             apagar
             </DropdownItem>

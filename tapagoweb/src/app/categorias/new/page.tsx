@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { create } from "@/app/actions/categorias/create";
 import NavBar from "@/components/NavBar";
@@ -14,7 +14,7 @@ const initialState = {
 }
 
 export default async function CadastrarCategoria() {
-  const [state, formAction] = useFormState(create, initialState)
+    const [state, formAction] = useFormState(create, initialState)
 
    return (
     <main className="flex min-h-screen flex-col items-center ">
